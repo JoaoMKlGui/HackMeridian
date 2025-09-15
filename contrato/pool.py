@@ -66,3 +66,4 @@ def create_competition_pool(entry_fee: float, payout_rules: dict) -> str:
     except Exception as e:
         print(f"Erro ao criar a pool: {e}")
         return None
+    
