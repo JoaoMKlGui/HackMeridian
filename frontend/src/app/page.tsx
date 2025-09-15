@@ -1,7 +1,11 @@
 export default function Home() {
   return (
-    <main className="mt-[100px] flex min-h-[calc(100vh-100px)] items-center justify-center p-2">
-      <h1 className="text-4xl font-bold">Not Gambling</h1>
+    <main className="hero-container">
+      <h1 className="hero-title">
+        <span className="text-primary-pink">NOT</span>
+        <span className="text-primary-blue">Gambling</span>
+      </h1>
+      <p className="hero-subtitle">Fairness. Distributed.</p>
     </main>
   );
 }

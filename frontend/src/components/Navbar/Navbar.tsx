@@ -10,8 +10,8 @@ export const Navbar = () => {
   const NAV_LINKS = [{ name: "Pools", href: "/pools" }];
 
   return (
-    <header className="fixed text-3xl h-25 top-0 left-0 w-full z-50 bg-[#0f1016]">
-      <nav className="flex items-center justify-between px-4 md:px-12 h-full">
+    <header className="fixed text-3xl h-25 top-0 left-0 w-full z-50 bg-[#F2EEFF60] border-b border-black/10">
+      <nav className="flex items-center justify-end px-4 md:px-12 h-full">
         {/* Mobile Nav Toggle */}
         <>
           <div className="md:hidden absolute right-4 top-1/2 -translate-y-1/2 z-50">
