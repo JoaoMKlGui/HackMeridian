@@ -1,0 +1,4 @@
+fastapi
+uvicorn[standard]
+stellar-sdk
+python-dotenv
