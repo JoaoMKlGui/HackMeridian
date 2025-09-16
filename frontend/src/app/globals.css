@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
 :root {
-  --background: linear-gradient(135deg, #e3d5ff 0%, #f0e6ff 50%, #e8dcff 100%);
   --foreground: #000;
 }
 
@@ -159,4 +158,54 @@ body::before {
   50% {
     opacity: 1;
   }
+}
+
+.apple-input {
+  background-color: #f9f9f9;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 16px;
+  color: #333;
+  transition: all 0.2s ease-in-out;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.apple-input:focus {
+  outline: none;
+  border-color: #c5c5c5;
+  box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+}
+
+.apple-input::placeholder {
+  color: #a9a9a9;
+}
+
+.apple-select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+.apple-button {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  color: #333;
+  font-weight: 500;
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.apple-button:hover {
+  background-color: #e5e5e5;
+}
+
+.apple-button:active {
+  background-color: #ddd;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }

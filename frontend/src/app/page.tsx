@@ -16,7 +16,7 @@ export default function Home() {
         className="btn btn-primary mt-20 flex justify-center items-center w-fit mx-auto hero-button"
         href="/create"
       >
-        Create
+        Begin 
       </Link>
     </main>
   );
