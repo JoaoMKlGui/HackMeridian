@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { cn } from "@/app/shared/cn";
-import { formatAddress } from "@/app/shared/formatAddress";
-import { useUserContext } from "@/app/context/userContext";
+import { cn } from "@/shared/cn";
+import { formatAddress } from "@/shared/formatAddress";
+import { useUserContext } from "@/context/userContext";
 import { LogOut } from "lucide-react";
 
 interface ConnectWalletProps {
@@ -66,7 +66,7 @@ export const ConnectWallet = ({ className }: ConnectWalletProps) => {
       <button
         ref={buttonRef}
         className={cn(
-          "bg-blue-500 hover:bg-blue-600/80 relative flex h-14 min-w-44 cursor-pointer items-center rounded-2xl px-2 text-center text-[20px] font-bold text-white",
+          "bg-pink-500  hover:bg-pink-600/80 relative flex h-14 min-w-44 cursor-pointer items-center rounded-2xl px-2 text-center text-[20px] font-bold text-white",
           className
         )}
         onClick={handleConnectWallet}
@@ -79,7 +79,7 @@ export const ConnectWallet = ({ className }: ConnectWalletProps) => {
       {isDropdownOpen && userAddress && (
         <div
           ref={dropdownRef}
-          className="bg-brand absolute top-full left-1/2 z-50 mt-1 min-w-44 -translate-x-1/2 transform rounded-xl p-1 shadow-lg"
+          className="bg-pink-400 absolute top-full left-1/2 z-50 mt-1 min-w-44 -translate-x-1/2 transform rounded-xl p-1 shadow-lg"
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="wallet-menu"

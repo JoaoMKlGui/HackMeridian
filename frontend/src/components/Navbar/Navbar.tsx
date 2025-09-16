@@ -15,6 +15,9 @@ export const Navbar = () => {
         {/* Mobile Nav Toggle */}
         <>
           <div className="md:hidden absolute right-4 top-1/2 -translate-y-1/2 z-50">
+            <div>ok</div>
+            <span className="text-primary-pink">NOT</span>
+            <span className="text-primary-blue">Gambling</span>
             <button
               className="btn btn-circle h-14 w-14 bg-[#232136]"
               onClick={() => setMobileMenuOpen(true)}
