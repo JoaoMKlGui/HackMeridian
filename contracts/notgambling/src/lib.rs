@@ -19,6 +19,7 @@ pub struct CompetitionContract;
 
 #[contractimpl]
 impl CompetitionContract {
+    
     pub fn initialize(
         env: Env, 
         admin: Address, 
