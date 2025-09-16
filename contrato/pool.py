@@ -12,13 +12,13 @@ NETWORK_PASS = Network.TESTNET_NETWORK_PASSPHRASE
 
 # stellar_utils.py (continuação)
 
-def create_competition_pool(entry_fee: float, payout_rules: dict) -> Keypair | None:
+def create_competition_pool(entry_fee: float, payout_rules: list) -> Keypair | None:
     """
     Cria uma nova conta Stellar para servir como pool da competição.
     
     Args:
         entry_fee (float): Valor da inscrição.
-        payout_rules (dict): Dicionário com as regras. Ex: {"1": 0.5, "2": 0.3}
+        payout_rules (list): Lista de prêmios por posição.
         
     Returns:
         str: A chave pública (endereço) da nova conta/pool.
@@ -45,8 +45,8 @@ def create_competition_pool(entry_fee: float, payout_rules: dict) -> Keypair | N
 
     # 2. Operações para gravar as regras na conta da pool
     tx_builder.append_manage_data_op(name="entry_fee", value=str(entry_fee))
-    for position, percentage in payout_rules.items():
-        key = f"payout_{position}"
+    for i, percentage in enumerate(payout_rules):
+        key = f"payout_{i}"
         value = str(percentage)
         tx_builder.append_manage_data_op(name=key, value=value)
     
@@ -136,9 +136,9 @@ def execute_payout(pool_address: str, pool_secret: str, leaderboard: list[str], 
 
     print("--- Calculando Payouts ---")
     payouts_sent = 0
-    # Itera no leaderboard (placar) recebido pela API
+
     for i, username in enumerate(leaderboard):
-        position = str(i + 1) # Posição no placar (1, 2, 3...)
+        position = str(i) # Posição no placar (0, 1, 2...)
         
         # VERIFICA SE O USERNAME DO LEADERBOARD PAGOU A INSCRIÇÃO
         if username in paid_users_map:
