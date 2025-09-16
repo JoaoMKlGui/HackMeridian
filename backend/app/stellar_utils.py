@@ -30,7 +30,6 @@ ADMIN_KEYPAIR = Keypair.from_secret(ADMIN_SECRET)
 CONTRACT_WASM_PATH = os.getenv("CONTRACT_WASM_PATH")
 
 
-
 def deploy_contract(
     admin: Address,
     entry_fee: int,

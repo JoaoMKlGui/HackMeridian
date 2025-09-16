@@ -1,0 +1,12 @@
+[package]
+name = "factory-contract"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "factory_contract"
+path = "src/factory.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+soroban-sdk = { workspace = true }

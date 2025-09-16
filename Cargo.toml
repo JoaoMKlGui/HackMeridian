@@ -1,8 +1,7 @@
 [workspace]
 resolver = "2"
-members = [
-  "contracts/*",
-]
+members = ["competition-contract", "factory-contract"]
+
 
 [workspace.dependencies]
 soroban-sdk = "23.0.2"
@@ -20,3 +19,4 @@ lto = true
 [profile.release-with-logs]
 inherits = "release"
 debug-assertions = true
+
