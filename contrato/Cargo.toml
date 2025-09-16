@@ -1,0 +1,10 @@
+[package]
+name = "contrato"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+soroban-sdk = "23.0.2"
+
+[lib]
+path = "lib.rs"
