@@ -1,0 +1,99 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { cn } from "@/shared/cn";
+import { formatAddress } from "@/shared/formatAddress";
+import { useUserContext } from "@/context/userContext";
+import { LogOut } from "lucide-react";
+
+interface ConnectWalletProps {
+  className?: string;
+}
+
+export const ConnectWallet = ({ className }: ConnectWalletProps) => {
+  const { address: userAddress, connectWallet, disconnect } = useUserContext();
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  // Handle escape key and click outside
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        buttonRef.current &&
+        !dropdownRef.current.contains(e.target as Node) &&
+        !buttonRef.current.contains(e.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    if (isDropdownOpen) {
+      document.addEventListener("keydown", handleEscape);
+      document.addEventListener("mousedown", handleClickOutside);
+      document.body.style.overflow = "hidden";
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.body.style.overflow = "unset";
+    };
+  }, [isDropdownOpen]);
+
+  const handleConnectWallet = async () => {
+    if (userAddress) {
+      setIsDropdownOpen(!isDropdownOpen);
+      return;
+    }
+    await connectWallet();
+  };
+
+  const handleDisconnect = () => {
+    disconnect();
+    setIsDropdownOpen(false);
+  };
+
+  return (
+    <div className="relative flex h-full w-full flex-col items-center justify-center">
+      <button
+        ref={buttonRef}
+        className={cn(
+          "bg-pink-500  hover:bg-pink-600/80 relative flex h-14 min-w-44 cursor-pointer items-center rounded-2xl px-2 text-center text-[20px] font-bold text-white",
+          className
+        )}
+        onClick={handleConnectWallet}
+        aria-expanded={isDropdownOpen}
+        aria-haspopup="true"
+      >
+        {userAddress ? formatAddress(userAddress) : "Connect Wallet"}
+      </button>
+
+      {isDropdownOpen && userAddress && (
+        <div
+          ref={dropdownRef}
+          className="bg-pink-400 absolute top-full left-1/2 z-50 mt-1 min-w-44 -translate-x-1/2 transform rounded-xl p-1 shadow-lg"
+          role="menu"
+          aria-orientation="vertical"
+          aria-labelledby="wallet-menu"
+        >
+          <button
+            onClick={handleDisconnect}
+            role="menuitem"
+            className="flex w-full cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10"
+          >
+            <LogOut size={16} />
+            Disconnect
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
