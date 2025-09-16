@@ -96,6 +96,63 @@ impl CompetitionContract {
         }
     }
 
+    pub fn distribute_prizes(env: Env, leaderboard: Vec<Symbol>) {
+        let admin: Address = env.storage().instance().get(&DataKey::Admin).unwrap();
+        admin.require_auth();
+
+        env.storage().instance().set(&DataKey::IsActive, &false);
+
+        let participants: Map<Symbol, Address> = env.storage().instance().get(&DataKey::Participants).unwrap();
+        let payout_rules: Vec<u32> = env.storage().instance().get(&DataKey::PayoutRules).unwrap();
+        let entry_fee: i128 = env.storage().instance().get(&DataKey::EntryFee).unwrap();
+        let contract_address = env.current_contract_address();
+        
+        let total_prize_pool = (participants.len() as i128).saturating_mul(entry_fee);
+
+        if total_prize_pool <= 0 {
+            return;
+        }
+
+        let xlm_wrapper_address = Address::from_string(&SdkString::from_str(&env, "CDLZXA64VFPATL2I4QN5VTO762U2AF2L66ZNFP3H34N3G45B3SGH4YTR"));
+        let token_client = token::Client::new(&env, &xlm_wrapper_address);
+
+        let mut pool_rank: u32 = 0;
+        let mut total_paid_out: i128 = 0;
+
+        for username in leaderboard.iter() {
+            if pool_rank >= payout_rules.len() {
+                break;
+            }
+
+            if let Some(winner_address) = participants.get(username) {
+                let payout_percentage = payout_rules.get(pool_rank).unwrap();
+                let payout_amount = (total_prize_pool * payout_percentage as i128) / 10000;
+
+                if payout_amount > 0 {
+                    token_client.transfer(
+                        &contract_address,
+                        &winner_address,
+                        &payout_amount
+                    );
+                    total_paid_out += payout_amount;
+                }
+                
+                pool_rank += 1;
+            }
+        }
+        
+        let remaining_balance = total_prize_pool.saturating_sub(total_paid_out);
+        if remaining_balance > 0 {
+            token_client.transfer(
+                &contract_address,
+                &admin,
+                &remaining_balance
+            );
+        }
+    }
+
+
+
     pub fn refund_all(env: Env) {
         let is_active: bool = env.storage().instance().get(&DataKey::IsActive).unwrap();
         if !is_active {
