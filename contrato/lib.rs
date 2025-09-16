@@ -47,10 +47,24 @@ impl CompetitionContract {
             panic!("Competition is closed");
         }
 
+        let entry_fee: i128 = env.storage().instance().get(&DataKey::EntryFee).unwrap();
+
+        let xlm_wrapper_address = Address::from_string(
+            &"CDLZXA64VFPATL2I4QN5VTO762U2AF2L66ZNFP3H34N3G45B3SGH4YTR"
+        );
+        let token_client = token::Client::new(&env, &xlm_wrapper_address);
+
+        token_client.transfer(
+            &participant,
+            &env.current_contract_address(),
+            &entry_fee
+        );
+
         let mut participants: Map<Symbol, Address> = env.storage().instance().get(&DataKey::Participants).unwrap();
         if participants.contains_key(username.clone()) {
             panic!("Username already registered");
         }
+        
         participants.set(username, participant);
         env.storage().instance().set(&DataKey::Participants, &participants);
     }
